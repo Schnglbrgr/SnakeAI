@@ -3,7 +3,7 @@
 Food::Food() {
 }
 
-Vector2 Food::GetPosition() const {
+Position Food::GetPosition() const {
     return position;
 }
 

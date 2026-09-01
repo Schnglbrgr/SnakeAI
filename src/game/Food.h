@@ -1,16 +1,16 @@
 #pragma once
 
-#include "raylib.h"
+#include "Position.h"
 
 class Food
 {
 public:
     Food();
 
-    Vector2 GetPosition() const;
+    Position GetPosition() const;
 
     void SetPosition(int x, int y);
 
 private:
-    Vector2 position;
+    Position position;
 };
