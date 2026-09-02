@@ -21,6 +21,8 @@ private:
     void Draw() const;
     void SetupButtons();
     void DrawButton(Rectangle rectangle, const char* text) const;
+    
+    Texture2D gridTexture{};
 
     Rectangle trainButton{};
     Rectangle watchButton{};

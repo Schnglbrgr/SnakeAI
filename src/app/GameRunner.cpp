@@ -13,6 +13,10 @@ void GameRunner::Run() {
     InitWindow(grid.GetWidth() * grid.GetCellSize(), grid.GetHeight() * grid.GetCellSize(), "SNAKE AI");
     SetTargetFPS(60);
 
+    Image icon = LoadImage("assets/snake_head.png");
+    SetWindowIcon(icon);
+    UnloadImage(icon);
+
     renderer.LoadAssets();
     renderer.CreateGridTexture(grid);
 
@@ -86,7 +90,7 @@ void GameRunner::HandleHumanInput() {
 }
 
 
-void GameRunner::Render() {
+void GameRunner::Render() const {
     const Grid& grid = game.GetGrid();
     const Snake& snake = game.GetSnake();
     const Food& food = game.GetFood();
@@ -105,9 +109,9 @@ void GameRunner::Render() {
 
 
 void GameRunner::DrawHUD() const {
-    const int padding = 15;
-    const int fontSize = 20;
-    const int lineHeight = 25;
+    constexpr int padding = 15;
+    constexpr int fontSize = 20;
+    constexpr int lineHeight = 25;
 
     DrawText(TextFormat("Episode: %i", game.GetEpisode()), padding, padding, fontSize, WHITE);
     DrawText(TextFormat("Score: %i", game.GetScore()), padding, padding + lineHeight, fontSize, WHITE);

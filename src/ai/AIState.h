@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Direction.h"
+#include "../game/Direction.h"
 
 
 struct AIState {

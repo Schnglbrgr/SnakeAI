@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../game/AIState.h"
+#include "AIState.h"
 #include "../game/GameState.h"
 
 

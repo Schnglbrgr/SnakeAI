@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include <functional>
-
 
 struct Position {
     int x;
@@ -20,12 +18,5 @@ struct Position {
 
     Position operator+(const Position& other) const {
         return {x + other.x, y + other.y};
-    }
-};
-
-
-struct PositionHash {
-    std::size_t operator()(const Position& position) const {
-        return std::hash<int>{}(position.x) ^ (std::hash<int>{}(position.y) << 1);
     }
 };

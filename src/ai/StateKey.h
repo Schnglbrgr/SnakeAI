@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "../game/AIState.h"
+#include "AIState.h"
 
 using StateKey = uint16_t;
 

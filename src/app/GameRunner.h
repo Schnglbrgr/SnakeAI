@@ -6,7 +6,8 @@
 
 
 enum class GameRunnerMode {
-    AI, Human
+    AI,
+    Human
 };
 
 
@@ -21,9 +22,9 @@ public:
 
 private:
     void Tick();
-    void Render();
+    void Render() const;
     void HandleHumanInput();
-    
+
     void DrawHUD() const;
 
     Game& game;
@@ -31,9 +32,9 @@ private:
     Renderer& renderer;
 
     GameRunnerMode mode = GameRunnerMode::AI;
-    
+
     float tickTimer = 0.0f;
     float tickInterval = 0.2f;
-    
+
     Action pendingAction = Action::None;
 };

@@ -32,11 +32,10 @@ void Trainer::Train(int episodes, const std::string& saveFile) {
 
         ai.DecayExploration();
 
-        PrintStatistics(episode, episodes);
-
-        if (episode % 100 == 0) {
+        if (episode % 1000 == 0) {
+            PrintStatistics(episode, episodes);
             Save(saveFile);
-            std::cout << "QTable saved: " << saveFile << '\n';
+            std::cout << "QTable saved: " << saveFile << " with " << ai.GetQTableSize() << " states" << '\n';
         }
     }
     Save(saveFile);
