@@ -13,13 +13,14 @@ public:
 
     void SetExplorationRate(float rate);
     float GetExplorationRate() const;
-    
+
     size_t GetQTableSize() const;
-    
+
     void DecayExploration();
 
     void Save(const std::string& filename) const;
     void Load(const std::string& filename);
+    bool Reset(const std::string& fileName);
 
 private:
     QTable qTable;

@@ -1,5 +1,6 @@
 ﻿#include "MainMenu.h"
 
+#include <filesystem>
 #include <string>
 
 
@@ -12,6 +13,7 @@ MenuAction MainMenu::Run() {
     UnloadImage(icon);
 
     gridTexture = LoadTexture("assets/grid.png");
+    trashBinTexture = LoadTexture("assets/trashBin.png");
 
     SetupButtons();
     SetDefaultEpisodes();
@@ -19,6 +21,7 @@ MenuAction MainMenu::Run() {
     while (!WindowShouldClose()) {
         if (const MenuAction action = HandleInput(); action != MenuAction::None) {
             UnloadTexture(gridTexture);
+            UnloadTexture(trashBinTexture);
             CloseWindow();
             return action;
         }
@@ -32,6 +35,7 @@ MenuAction MainMenu::Run() {
     }
 
     UnloadTexture(gridTexture);
+    UnloadTexture(trashBinTexture);
     CloseWindow();
     return MenuAction::Exit;
 }
@@ -49,6 +53,15 @@ void MainMenu::Draw() const {
     DrawButton(watchButton, "WATCH AI");
     DrawButton(playButton, "PLAY SNAKE");
     DrawButton(exitButton, "EXIT");
+    DrawButton(resetButton, "");
+
+    const int trashBinX = resetButton.x + (resetButton.width - trashBinTexture.width) / 2;
+    const int trashBinY = resetButton.y + (resetButton.height - trashBinTexture.height) / 2;
+
+    DrawTexture(trashBinTexture, trashBinX, trashBinY, WHITE);
+
+    if (CheckCollisionPointRec(GetMousePosition(), resetButton))
+        ShowResetTooltip(resetButton);
 
     DrawInputField();
 }
@@ -67,7 +80,7 @@ void MainMenu::SetupButtons() {
     watchButton = {x, 350.0f, buttonWidth, buttonHeight};
     playButton = {x, 420.0f, buttonWidth, buttonHeight};
     exitButton = {x, 490.0f, buttonWidth, buttonHeight};
-
+    resetButton = {trainButton.x + trainButton.width + 10.0f, trainButton.y + 5.0f, 50.0f, 50.0f};
     textBox = {static_cast<float>(GetScreenWidth()) / 2.0f, 210.0f, textBoxWidth, textBoxHeight};
 }
 
@@ -199,5 +212,15 @@ MenuAction MainMenu::HandleInput() const {
     if (CheckCollisionPointRec(mousePosition, exitButton))
         return MenuAction::Exit;
 
+    if (CheckCollisionPointRec(mousePosition, resetButton)) {
+        return MenuAction::Reset;
+    }
+
     return MenuAction::None;
+}
+
+
+void MainMenu::ShowResetTooltip(Rectangle rec) const {
+    constexpr auto resetTooltip = "Deletes the saved QTable";
+    DrawText(resetTooltip, static_cast<int>(resetButton.x) + 5, static_cast<int>(resetButton.y - 30), 22, WHITE);
 }

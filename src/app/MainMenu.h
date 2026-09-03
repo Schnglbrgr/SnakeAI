@@ -8,7 +8,8 @@ enum class MenuAction {
     Train,
     Watch,
     Play,
-    Exit
+    Exit,
+    Reset
 };
 
 
@@ -19,6 +20,7 @@ public:
     int GetEpisodeCount() const;
 
 private:
+    void ShowResetTooltip(Rectangle rec) const;
     MenuAction HandleInput() const;
     void Draw() const;
     void SetupButtons();
@@ -31,11 +33,14 @@ private:
     const Color defaultColor = {.r = 0, .g = 102, .b = 0, .a = 255};
 
     Texture2D gridTexture{};
+    Texture2D trashBinTexture{};
 
     Rectangle trainButton{};
     Rectangle watchButton{};
     Rectangle playButton{};
     Rectangle exitButton{};
+    
+    Rectangle resetButton{};
 
     Rectangle textBox{};
     int letterCount = 0;

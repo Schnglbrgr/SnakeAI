@@ -1,4 +1,6 @@
-﻿#include "game/Game.h"
+﻿#include <iostream>
+
+#include "game/Game.h"
 
 #include "ai/AI.h"
 #include "ai/Trainer.h"
@@ -19,9 +21,9 @@ int main() {
             Game game;
             AI ai;
             Trainer trainer(game, ai);
-            
+
             const int episodes = menu.GetEpisodeCount();
-            
+
             trainer.Load("qtable.txt");
             trainer.Train(episodes, "qtable.txt");
             trainer.Save("qtable.txt");
@@ -54,6 +56,13 @@ int main() {
             runner.SetTickRate(5.0f);
 
             runner.Run();
+        }
+
+        if (action == MenuAction::Reset) {
+            if (AI ai; ai.Reset("qtable.txt"))
+                std::cout << "QTable reset successfully.\n";
+            else
+                std::cout << "No QTable found.\n";
         }
     }
 

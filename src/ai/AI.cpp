@@ -1,5 +1,7 @@
 ﻿#include "AI.h"
 
+#include <filesystem>
+
 #include "StateEncoder.h"
 #include "StateKey.h"
 #include "../game/ActionUtils.h"
@@ -86,4 +88,9 @@ void AI::Save(const std::string& filename) const {
 
 void AI::Load(const std::string& filename) {
     qTable.Load(filename);
+}
+
+
+bool AI::Reset(const std::string& fileName) {
+    return std::filesystem::remove(fileName);
 }
