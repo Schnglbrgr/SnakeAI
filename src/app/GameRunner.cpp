@@ -10,10 +10,12 @@ void GameRunner::Run() {
 
     const Grid& grid = game.GetGrid();
 
-    InitWindow(grid.GetWidth() * grid.GetCellSize(), grid.GetHeight() * grid.GetCellSize(), "SNAKE AI");
+    InitWindow(grid.GetWidth() * grid.GetCellSize() + renderer.GetPadding() * 2,
+               grid.GetHeight() * grid.GetCellSize() + renderer.GetPadding() * 2, "SNAKE AI");
+    
     SetTargetFPS(60);
 
-    Image icon = LoadImage("assets/snake_head.png");
+    const Image icon = LoadImage("assets/snake_head.png");
     SetWindowIcon(icon);
     UnloadImage(icon);
 
@@ -70,7 +72,7 @@ void GameRunner::Tick() {
 }
 
 
-void GameRunner::SetMode(GameRunnerMode newMode) {
+void GameRunner::SetMode(const GameRunnerMode newMode) {
     mode = newMode;
 }
 
@@ -96,9 +98,9 @@ void GameRunner::Render() const {
     const Food& food = game.GetFood();
 
     BeginDrawing();
-    ClearBackground(BLACK);
+    ClearBackground(renderer.backgroundColor);
 
-    renderer.DrawGrid();
+    renderer.DrawGrid(grid);
     renderer.DrawFood(food, grid);
     renderer.DrawSnake(snake, grid);
 
@@ -109,12 +111,12 @@ void GameRunner::Render() const {
 
 
 void GameRunner::DrawHUD() const {
-    constexpr int padding = 15;
+    const int padding = renderer.GetPadding();
     constexpr int fontSize = 20;
-    constexpr int lineHeight = 25;
+    constexpr int lineWidth = 200;
 
-    DrawText(TextFormat("Episode: %i", game.GetEpisode()), padding, padding, fontSize, WHITE);
-    DrawText(TextFormat("Score: %i", game.GetScore()), padding, padding + lineHeight, fontSize, WHITE);
-    DrawText(TextFormat("Best: %i", game.GetBestScore()), padding, padding + lineHeight * 2, fontSize, WHITE);
-    DrawText(TextFormat("Steps: %i", game.GetSteps()), padding, padding + lineHeight * 3, fontSize, WHITE);
+    DrawText(TextFormat("Episode: %i", game.GetEpisode()), padding, 10, fontSize, WHITE);
+    DrawText(TextFormat("Score: %i", game.GetScore()), padding + lineWidth, 10, fontSize, WHITE);
+    DrawText(TextFormat("Best: %i", game.GetBestScore()), padding + lineWidth * 2, 10, fontSize, WHITE);
+    DrawText(TextFormat("Steps: %i", game.GetSteps()), padding + lineWidth * 3, 10, fontSize, WHITE);
 }

@@ -1,8 +1,7 @@
 #include "Renderer.h"
 
 
-Renderer::Renderer() {
-}
+Renderer::Renderer() = default;
 
 
 Renderer::~Renderer() {
@@ -23,13 +22,17 @@ void Renderer::LoadAssets() {
 RenderTexture2D Renderer::CreateGridTexture(const Grid& grid) {
     gridTexture = LoadRenderTexture(grid.GetWidth() * grid.GetCellSize(), grid.GetHeight() * grid.GetCellSize());
 
+    const int width = grid.GetWidth();
+    const int height = grid.GetHeight();
+    const int cellSize = grid.GetCellSize();
+
     BeginTextureMode(gridTexture);
 
-    for (int x = 0; x < grid.GetWidth(); x++) {
-        for (int y = 0; y < grid.GetHeight(); y++) {
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
             Color c = ((x + y) % 2 == 0) ? cellColor1 : cellColor2;
 
-            DrawRectangle(x * grid.GetCellSize(), y * grid.GetCellSize(), grid.GetCellSize(), grid.GetCellSize(), c);
+            DrawRectangle(x * cellSize, y * cellSize, cellSize, cellSize, c);
         }
     }
 
@@ -38,31 +41,39 @@ RenderTexture2D Renderer::CreateGridTexture(const Grid& grid) {
 }
 
 
-void Renderer::DrawGrid() const {
-    Rectangle source{
-        0.0f, 0.0f, static_cast<float>(gridTexture.texture.width), -static_cast<float>(gridTexture.texture.height)
+int Renderer::GetPadding() const {
+    return padding;
+}
+
+
+void Renderer::DrawGrid(const Grid& grid) const {
+    const Rectangle source{
+        .x = 0.0f, .y = 0.0f, .width = static_cast<float>(gridTexture.texture.width),
+        .height = -static_cast<float>(gridTexture.texture.height)
     };
-    Vector2 position{0.0f, 0.0f};
+    
+    const Vector2 position{.x = static_cast<float>(padding), .y = static_cast<float>(padding)};
     DrawTextureRec(gridTexture.texture, source, position, WHITE);
 }
 
 
-void Renderer::DrawSnake(const Snake& snake, const Grid& grid) {
+void Renderer::DrawSnake(const Snake& snake, const Grid& grid) const {
     const auto& body = snake.GetBody();
+    
     for (size_t i = 0; i < body.size(); i++) {
         const Position& position = body[i];
 
-        int x = position.x * grid.GetCellSize();
-        int y = position.y * grid.GetCellSize();
+        const int x = position.x * grid.GetCellSize() + padding;
+        const int y = position.y * grid.GetCellSize() + padding;
 
-        Texture2D texture = (i == 0) ? snakeHeadTexture : snakeBodyTexture;
+        const Texture2D texture = (i == 0) ? snakeHeadTexture : snakeBodyTexture;
         DrawTexture(texture, x, y, WHITE);
     }
 }
 
 
-void Renderer::DrawFood(const Food& food, const Grid& grid) {
+void Renderer::DrawFood(const Food& food, const Grid& grid) const {
     Position pos = food.GetPosition();
 
-    DrawTexture(foodTexture, pos.x * grid.GetCellSize(), pos.y * grid.GetCellSize(), WHITE);
+    DrawTexture(foodTexture, pos.x * grid.GetCellSize() + padding, pos.y * grid.GetCellSize() + padding, WHITE);
 }

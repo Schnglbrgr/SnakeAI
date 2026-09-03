@@ -19,9 +19,11 @@ int main() {
             Game game;
             AI ai;
             Trainer trainer(game, ai);
-
+            
+            const int episodes = menu.GetEpisodeCount();
+            
             trainer.Load("qtable.txt");
-            trainer.Train(10000, "qtable.txt");
+            trainer.Train(episodes, "qtable.txt");
             trainer.Save("qtable.txt");
         }
 

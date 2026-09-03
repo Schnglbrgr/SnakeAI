@@ -18,7 +18,7 @@ public:
     void Run();
 
     void SetTickRate(float ticksPerSecond);
-    void SetMode(GameRunnerMode mode);
+    void SetMode(GameRunnerMode newMode);
 
 private:
     void Tick();
